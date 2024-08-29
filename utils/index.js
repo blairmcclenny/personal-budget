@@ -9,6 +9,17 @@ const createId = (data) => {
   return newId
 }
 
+const findById = (data, recordId) => {
+  const record = data.find((item) => item.id === parseInt(recordId))
+
+  if (!record) {
+    console.log("Record not found")
+  }
+
+  return record
+}
+
 module.exports = {
   createId,
+  findById,
 }

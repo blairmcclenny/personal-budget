@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 const envelopes = require("../config/db")
-const { createId } = require("../utils")
+const { createId, findById } = require("../utils")
 
 router.get("/", (req, res) => {
   if (!envelopes || envelopes.length < 1) {
@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   if (!req.body?.title || !req.body?.budget) {
-    res.status(400).send(req.body)
+    res.status(400).send("A valid title and budget are required")
     return
   }
 
@@ -29,6 +29,16 @@ router.post("/", (req, res) => {
   envelopes.push(newEnvelope)
 
   res.status(201).send(newEnvelope)
+})
+
+router.get("/:envelopeId", (req, res) => {
+  const envelope = findById(envelopes, req.params.envelopeId)
+
+  if (!envelope) {
+    res.status(404).send("Envelope not found")
+  } else {
+    res.send(envelope)
+  }
 })
 
 module.exports = router
