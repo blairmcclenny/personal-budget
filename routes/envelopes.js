@@ -4,6 +4,17 @@ const router = express.Router()
 const envelopes = require("../config/db")
 const { createId, findById } = require("../utils")
 
+router.param("envelopeId", (req, res, next, id) => {
+  const envelope = findById(envelopes, id)
+
+  if (!envelope) {
+    res.status(404).send("Envelope not found")
+  } else {
+    req.envelope = envelope
+    next()
+  }
+})
+
 router.get("/", (req, res) => {
   if (!envelopes || envelopes.length < 1) {
     res.status(404).send("No envelopes found.")
@@ -32,13 +43,7 @@ router.post("/", (req, res) => {
 })
 
 router.get("/:envelopeId", (req, res) => {
-  const envelope = findById(envelopes, req.params.envelopeId)
-
-  if (!envelope) {
-    res.status(404).send("Envelope not found")
-  } else {
-    res.send(envelope)
-  }
+  res.send(req.envelope)
 })
 
 module.exports = router
