@@ -46,4 +46,20 @@ router.get("/:envelopeId", (req, res) => {
   res.send(req.envelope)
 })
 
+router.post("/:envelopeId", (req, res) => {
+  if (req.body?.expense && typeof req.body?.expense === "number") {
+    const expense = req.body.expense
+    const newBudget = req.envelope.budget - expense
+
+    if (newBudget < 0) {
+      res.send("Expense exceeds budget")
+    } else {
+      req.envelope.budget = newBudget
+      res.status(201).send(req.envelope)
+    }
+  } else {
+    res.status(400).send("Must include a valid expense")
+  }
+})
+
 module.exports = router
