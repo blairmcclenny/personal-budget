@@ -55,7 +55,7 @@ router.post("/:envelopeId", (req, res) => {
       res.send("Expense exceeds budget")
     } else {
       req.envelope.budget = newBudget
-      res.status(201).send(req.envelope)
+      res.send(req.envelope)
     }
   } else {
     res.status(400).send("Must include a valid expense")
