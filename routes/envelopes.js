@@ -62,4 +62,9 @@ router.post("/:envelopeId", (req, res) => {
   }
 })
 
+router.delete("/:envelopeId", (req, res) => {
+  envelopes.splice([envelopes.indexOf(req.envelope)], 1)
+  res.send("Envelope deleted")
+})
+
 module.exports = router
