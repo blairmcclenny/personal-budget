@@ -19,7 +19,19 @@ const findById = (data, recordId) => {
   return record
 }
 
+const deleteById = (data, recordId) => {
+  const index = data.findIndex((item) => item.id === parseInt(recordId))
+
+  if (index === -1) {
+    console.log("Invalid index")
+  }
+
+  data.splice(index, 1)
+  return data
+}
+
 module.exports = {
   createId,
   findById,
+  deleteById,
 }
